@@ -41,17 +41,17 @@ config_dict = {'data_dir': args.datadir, 'num_imgs_in_tif': args.numImgInTif,
 
 model_type = args.model
 if model_type == 'care':
-    train_care(*config_dict)
+    train_care(**config_dict)
 if model_type == 'n2v':
-    train_n2v(*config_dict)
+    train_n2v(**config_dict)
 if model_type == 'n2v':
-    train_n2n(*config_dict)
+    train_n2n(**config_dict)
 if model_type == 'dncnn':
     config_dict['bias'] = args.bias
-    train_dncnn(*config_dict)
+    train_dncnn(**config_dict)
 if model_type == 'resnet':
     config_dict['bias'] = args.bias
-    train_resnet(*config_dict)
+    train_resnet(**config_dict)
 if model_type == 'unet':
     config_dict['bias'] = args.bias
-    train_unet(*config_dict)
+    train_unet(**config_dict)
