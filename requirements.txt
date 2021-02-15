@@ -1,0 +1,7 @@
+-f https://download.pytorch.org/whl/torch_stable.html 
+torch==1.6.0+cpu 
+torchvision==0.7.0+cpu
+n2v==0.2.1
+tensorflow==1.15.0
+opencv-python
+scikit-image==0.18.1
