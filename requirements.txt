@@ -4,7 +4,7 @@ torchvision==0.7.0+cpu
 n2v==0.2.1
 csbdeep=0.5.2
 numpy=1.19.1
-tifffile=2020.12.8
+tifffile
 tensorflow==1.15.0
-opencv-python-4.5.1.48
+opencv-python
 scikit-image==0.18.1
