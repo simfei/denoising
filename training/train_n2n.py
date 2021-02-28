@@ -21,7 +21,7 @@ def train_n2n(data_dir, num_imgs_in_tif=1,
     np.random.shuffle(Y_train)
     config = Config(axes='SYXC', n_channel_in=1, n_channel_out=1,
                     unet_kern_size=3, train_batch_size=batch_size,
-                    train_steps_per_epoch=int(X_train.shape[0]/32),
+                    train_steps_per_epoch=int(X_train.shape[0]/batch_size),
                     allow_new_parameters=True, train_epochs=epochs,
                     train_learning_rate=lr)
     model = CARE(config=config, name=model_name, basedir=basedir)

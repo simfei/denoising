@@ -16,8 +16,10 @@ def conv_block(channel_in, channel_mid, channel_out, batch_norm, bias):
 
 
 class UNet(nn.Module):
+    # reference: https://github.com/CSBDeep/CSBDeep/tree/master/csbdeep/internals
     def __init__(self, input_size=256, channel_in=1, channel_out=1, batch_norm=True, bias=True,
                  use_risidual=True, last_activation='linear'):
+        # last_activation: 'linear', 'relu', 'sigmoid', or 'softmax', default='linear'.
         super().__init__()
         self.use_risidual = use_risidual
         self.batch_norm = batch_norm
@@ -49,6 +51,10 @@ class UNet(nn.Module):
 
         if self.last_activation == 'relu':
             self.last_act = nn.ReLU(inplace=True)
+        elif self.last_activation == 'sigmoid':
+            self.last_act = nn.Sigmoid()
+        elif self.last_activation == 'softmax':
+            self.las_act = nn.Softmax2d()
         else:
             self.last_act = nn.Linear(input_size, input_size, bias=bias)
 

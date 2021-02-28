@@ -53,13 +53,14 @@ def train_model(dataset_sizes, loader, model, criterion, optimizer, scheduler, d
 
 def train_dncnn(data_dir, num_imgs_in_tif=1,
                 expand_data=False, patch_shape=(256, 256),
-                test_size=0.1, batch_size=16,
-                epochs=100, bias=False, lr=0.0004,
+                test_size=0.1, augment=True,
+                batch_size=16, epochs=100,
+                bias=False, lr=0.0004,
                 model_name='dncnn.pt', basedir='save_models/'
           ):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     dataset_sizes, loader = load_data(data_dir, num_imgs_in_tif, expand_data,
-                                      test_size, patch_shape, batch_size, augment=True, device=device)
+                                      test_size, patch_shape, batch_size, augment=augment, device=device)
     model = DnCNN(bias=bias)
     model = model.to(device)
     criterion = nn.MSELoss()

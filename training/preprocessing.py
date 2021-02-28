@@ -20,7 +20,8 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
     :param data_dir: image directory
     :param num_imgs_in_tif: number of images to extract from one .tif file
     :param expand_data: expand data by average 2,4,8,16 raw images as training data, default=False
-    :param data_type: 'XY', 'XX', or 'X', default='XY'
+    :param data_type: 'XY', 'XX', or 'X', default='XY'. 'XY' for extracting noisy inputs and clean targets,
+                      'XX' for extracting noisy inputs and noisy targets, and 'X' for extracting noisy inputs.
     :return: training data
     '''
 
@@ -43,16 +44,16 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
                     for i in range(num_imgs_in_tif):
                         raw_y.append(gt)
                 if data_type == 'XX':
-                    raw_y.append(new_img_series[int(num_img/2):int(num_img/2)+num_imgs_in_tif])
+                    raw_y.append(new_img_series[int(num_img/2):(int(num_img/2)+num_imgs_in_tif)])
             else:
                 avg_num = [1, 2, 4, 8, 16]
                 for s in avg_num:
                     for n in range(num_imgs_in_tif):
                         avg_img1 = np.mean(new_img_series[n:(n + s)], axis=0)
+                        raw_x.append(avg_img1)
                         if data_type == 'XX':
                             avg_img2 = np.mean(new_img_series[(n+int(num_img/2)):(n+int(num_img/2)+s)], axis=0)
                             raw_y.append(avg_img2)
-                        raw_x.append(avg_img1)
                 if data_type == 'XY':
                     for i in range(5*num_imgs_in_tif):
                         raw_y.append(gt)
@@ -69,6 +70,7 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
 
 
 def extract_patches(data, shape):
+    # reference: https://github.com/juglab/n2v/blob/master/n2v/internals/N2V_DataGenerator.py
     patches = []
     if data.shape[1] > shape[0] and data.shape[2] > shape[1]:
         for y in range(0, data.shape[1] - shape[0] + 1, shape[0]):
@@ -82,12 +84,18 @@ def extract_patches(data, shape):
 
 
 def augment_patches(patches):
-    augmented = np.concatenate((patches, np.rot90(patches, k=1, axes=(1, 2))))
+    # reference: https://github.com/juglab/n2v/blob/master/n2v/internals/N2V_DataGenerator.py
+    augmented = np.concatenate((patches,
+                                np.rot90(patches, k=1, axes=(1, 2)),
+                                np.rot90(patches, k=2, axes=(1, 2)),
+                                np.rot90(patches, k=3, axes=(1, 2))
+                                ))
     augmented = np.concatenate((augmented, np.flip(augmented, axis=-2)))
     return augmented
 
 
 def generate_patches(data, shape=(256,256), augment=True):
+    # reference: https://github.com/juglab/n2v/blob/master/n2v/internals/N2V_DataGenerator.py
     patches = extract_patches(data, shape=shape)
     if shape[-2] == shape[-1]:
         if augment is True:
@@ -100,6 +108,7 @@ def generate_patches(data, shape=(256,256), augment=True):
 
 
 def generate_patches_from_list(data, shape=(256, 256), augment=True):
+    # reference: https://github.com/juglab/n2v/blob/master/n2v/internals/N2V_DataGenerator.py
     patches = []
     for img in data:
         for s in range(img.shape[0]):
@@ -110,6 +119,7 @@ def generate_patches_from_list(data, shape=(256, 256), augment=True):
 
 
 def load_data(data_dir, num_imgs_in_tif, expand_data, test_size, shape, batch_size, augment, device):
+    # load data for torch implementation
     raw_x, raw_y = extract_data(data_dir=data_dir,
                                 num_imgs_in_tif=num_imgs_in_tif,
                                 expand_data=expand_data,
@@ -123,7 +133,7 @@ def load_data(data_dir, num_imgs_in_tif, expand_data, test_size, shape, batch_si
     np.random.shuffle(X_train)
     np.random.seed(0)
     np.random.shuffle(Y_train)
-    print(X_train.shape, X_val.shape)
+    # print(X_train.shape, X_val.shape)
     del raw_x
     del raw_y
     dataset_sizes = dict()
