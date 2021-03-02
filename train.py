@@ -8,7 +8,6 @@ parser.add_argument("--numImgsInTif", help="how many images in one .tif file you
 parser.add_argument("--expandData", help="whether to expand data by averaging 2,4,8,16 raw images", default=True)
 parser.add_argument("--shape", help="the shape of input patches", default=(256,256))
 parser.add_argument("--testSize", help="the size of validation set", default=0.1)
-parser.add_argument("--shape", help="the shape of input patches", default=(256,256))
 parser.add_argument("--augment", help="whether to do data augmentation", default=True)
 parser.add_argument("--batchSize", help="training batch size", default=16)
 parser.add_argument("--epochs", help="training epochs", default=100)
