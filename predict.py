@@ -5,7 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--imgType", help="the type of image", default="ast")
-parser.add_argument("--modelName", help="which model you want to use", default='n2n')
+parser.add_argument("--modelName", help="which model you want to use", default='n2v')
 parser.add_argument("--imgPath", help="directory in which test images are", default="test_images/AST/raw/")
 parser.add_argument("--savePath", help="where to save denoised images", default="denoised/")
 
