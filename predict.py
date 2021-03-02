@@ -72,10 +72,10 @@ if model_name == 'n2n':
 if model_name == 'n2v':
     print('loading N2V')
     model = N2V(config=None, name='n2v', basedir='nets/models_{}/'.format(img_type))
-if model_name == 'bf-dncnn':
+if model_name == 'dncnn':
     print('loading DnCNN.')
     model = DnCNN(bias=False)
-    model.load_state_dict(torch.load('nets/models_{}/dncnn/dncnn-bf.pt'.format(img_type), map_location=device))
+    model.load_state_dict(torch.load('nets/models_{}/dncnn/dncnn.pt'.format(img_type), map_location=device))
     model.eval()
 if model_name == 'resnet':
     print('loading ResNet.')
