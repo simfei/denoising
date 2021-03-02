@@ -5,6 +5,6 @@ n2v==0.2.1
 csbdeep=0.5.2
 numpy=1.19.1
 tifffile
-tensorflow==1.15.0
+tensorflow==1.15.4
 opencv-python
 scikit-image==0.18.1

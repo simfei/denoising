@@ -22,7 +22,6 @@ class DnCNN(nn.Module):
         layers.append(nn.Conv2d(n_channels, image_channels,
                       kernel_size=kernel_size, padding=padding, bias=bias))
         self.dncnn = nn.Sequential(*layers)
-        self._initialize_weights()
 
     def forward(self, x):
         y = x
@@ -30,12 +29,3 @@ class DnCNN(nn.Module):
         # out: residual, y: noisy input
         return y - out
 
-    def _initialize_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.orthogonal_(m.weight)
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
