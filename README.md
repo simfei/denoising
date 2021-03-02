@@ -1,5 +1,4 @@
 ## Multiphoton Microscopy Image Denoising with Deep Learning
----
 
 Multiphoton microscopy (MPM) images are captured inherently with low signal-to-noise ratio (SNR), inhibiting
 processes to image deeper brain layer, achieve higher time and spatial resolution. While classical
@@ -8,7 +7,6 @@ restoration with deep learning is currently a hot topic. In this work, three sup
 is also examined by bias-free neural networks. Results have shown that our deep learning based models achieved satisfying denoising performance, with generalization across a broad range of noise levels. It is also proved that unsupervised methods only show slightly degraded denoising performance compared to supervised methods. This finding is of significant meaning in that collecting experimental images for training data is expensive and sometimes difficult. Unsupervised methods only need pairs of noisy images or even single noisy images to train the networks. These methods are more suitable for denoising a time series of the same sample with sensible motion, due to the fact that ground truth images used in training supervised models are usually not well aligned with input noisy images. Thus supervised algorithms tend to get the same restored image for all frames in a time series, which would cause loss of interested details, such as blood flow. Further applications by our denoising models also showed promising results, such as denoising third harmonics generation (THG) images captured by commonly used lasers and better ratiometric imaging results after denoising by our models.
 
 ## Training
----
 
 ### 1. Installation for training on GPU
 
@@ -69,7 +67,6 @@ python train.py --model=n2v --dataDir=data/ batchSize=128 --epochs=200 --modelNa
 ```
 
 ## Prediction
----
 
 ### 1. Installation for prediction on CPU
 
