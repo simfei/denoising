@@ -5,10 +5,10 @@ import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--baseDir", help="basedir of models for each type of image", default="models/models_ast/")
-parser.add_argument("--modelName", help="which model you want to use", default='n2v')
-parser.add_argument("--imgPath", help="the path of test images", default="test_images/AST/raw/")
-parser.add_argument("--savePath", help="the path to save denoised images", default="denoised/")
-parser.add_argument("--multiFrames", help="whether there are multi frames in an image", default=False)
+parser.add_argument("--modelName", help="which model you want to use", default='care')
+parser.add_argument("--imgPath", help="the path of test images", default="test_images/AST/ratio/")
+parser.add_argument("--savePath", help="the path to save denoised images", default="ratiometric/")
+parser.add_argument("--binning", help="number of frames to average", default=1)
 
 if len(sys.argv)==1:
     parser.print_help(sys.stderr)
@@ -20,7 +20,7 @@ basedir = args.baseDir
 model_name = args.modelName
 test_img_path = args.imgPath
 save_path = args.savePath
-multi_frames = args.multiFrames
+binning = int(args.binning)
 if not basedir.endswith('/'):
     basedir = basedir+'/'
 if not test_img_path.endswith('/'):
@@ -80,25 +80,53 @@ def custom_predict(imgs, model_name):
         imgs = imgs.astype('float32')
         preds = np.zeros(imgs.shape)
         for i in range(imgs.shape[0]):
-            preds[i,...] = prediction.tiledPredict(imgs[i], model, ps=256, overlap=48, device=device, noiseModel=None)
+            preds[i,...] = prediction.tiledPredict(imgs[i], model, ps=256, overlap=48, device=None, noiseModel=None)
     else:
         raise Exception("Wrong model name!")
     return preds
 
-# load test images
-test_imgs = []
+# load images
 files = os.listdir(test_img_path)
+ch1 = []
+ch2 = []
+max_values1 = []
+max_values2 = []
+
 for file in files:
     print('loading ' + file)
     image = imread(test_img_path + file)
-    max_value = np.percentile(image, 99.5)
-    test_imgs.append(cut_off(image, max_value))
-assert len(test_imgs) == len(files)
-if multi_frames is False:
-    test_imgs = np.stack(test_imgs)
+    b = 0
+    raws1 = []
+    raws2 = []
+    for i in range(image.shape[0]):
+        if b < 2*binning:
+            if i%2 == 0:
+                raws1.append(image[i])
+            else:
+                raws2.append(image[i])
+            b += 1
+    assert len(raws1) == len(raws2)
+    if len(raws1) == 1:
+        raws1 = raws1[0][np.newaxis,...]
+        raws2 = raws2[0][np.newaxis,...]
+    else:
+        raws1 = np.stack(raws1)
+        raws2 = np.stack(raws2)
+    max_value1 = np.percentile(raws1, 99.5)
+    max_value2 = np.percentile(raws2, 99.5)
+    raws1 = cut_off(raws1, max_value1)
+    raws2 = cut_off(raws2, max_value2)
+    ch1.append(np.mean(raws1, axis=0))
+    ch2.append(np.mean(raws2, axis=0))
+    max_values1.append(max_value1)
+    max_values2.append(max_value2)
+assert len(ch1) == len(ch2)
+assert len(max_values1) == len(max_values2)
+assert len(ch1) == len(max_values1)
+assert len(ch1) == len(files)
 print('done')
 
-# load nets
+# load model
 model = None
 if model_name == 'care':
     print('loading CARE.')
@@ -127,20 +155,15 @@ if model_name == 'resnet':
     model.eval()
 
 # denoise and save denoised images
+# each denoised image has two channels
 since = time.time()
-if multi_frames is False: 
-    preds = custom_predict(test_imgs, model_name)
-    preds = np.clip(preds, 0, 1)
-    assert preds.shape[0] == len(files)
-    for i, file in enumerate(files):
-        imsave(save_path + file, preds[i])
-else:
-    for i in range(len(test_imgs)):
-        pred = custom_predict(test_imgs[i], model_name)
-        pred = np.clip(pred, 0, 1)
-        if pred.shape[0] == 1:
-            pred = pred[0]
-        imsave(save_path + files[i], pred)
 
+for i in range(len(ch1)):
+    pred1 = custom_predict(ch1[i], model_name)[0]
+    pred2 = custom_predict(ch2[i], model_name)[0]
+    pred1 = np.clip(pred1, 0, 1)*max_values1[i]
+    pred2 = np.clip(pred2, 0, 1)*max_values2[i]
+    pred = np.stack([pred1, pred2])
+    imsave(save_path+files[i], pred)
 print('Finished denoising. Time: %.2fs'%(time.time()-since))
 print("Denoised images are saved to {}".format(save_path))

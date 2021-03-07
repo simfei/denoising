@@ -54,7 +54,7 @@ if model_type == 'care':
     train_care(**config_dict)
 if model_type == 'n2v':
     train_n2v(**config_dict)
-if model_type == 'n2v':
+if model_type == 'n2v' or model_type.startswith('struct_n2v'):
     config_dict['structN2Vmask'] = args.structN2VMask
     train_n2n(**config_dict)
 if model_type == 'dncnn':

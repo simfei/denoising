@@ -6,7 +6,8 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader
 
 
-def cut_off(img, max_value):
+def cut_off(img_, max_value):
+    img = np.copy(img_)
     img = img.astype('float32')
     mask = img > max_value
     img[mask] = max_value
@@ -34,9 +35,7 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
             img_series = imread(data_dir+file)
             num_img = img_series.shape[0]
             max_value = np.percentile(img_series, 99.5)
-            new_img_series = np.zeros(img_series.shape)
-            for i in range(img_series.shape[0]):
-                new_img_series[i] = cut_off(img_series[i], max_value)
+            new_img_series = cut_off(img_series, max_value)
             gt = np.mean(new_img_series, axis=0)
             if expand_data is False:
                 raw_x.append(new_img_series[:num_imgs_in_tif])

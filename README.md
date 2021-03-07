@@ -70,10 +70,10 @@ python train.py --model=n2v --dataDir=data/ batchSize=128 --epochs=200 --modelNa
 
 ### 1. Installation for prediction on CPU
 
-Firstly install [Anaconda](https://docs.anaconda.com/anaconda/install/windows/). The following lines show how to create an environment and add the environment to jupyter:
+Firstly install [Anaconda](https://docs.anaconda.com/anaconda/install/windows/). Then the following lines show how to create an environment and add the environment to jupyter:
 
 ```
-conda create -n [ENV_NAME] python==3.6
+conda create -n [ENV_NAME] python==3.7
 conda activate [ENV_NAME]
 conda install -n [ENV_NAME] ipykernel
 python -m ipykernel install --user --name [ENV_NAME] --display-name [DISPLAY_NAME]
@@ -89,18 +89,39 @@ pip install -r requirements.txt
 The arguments in parser are as follows:
 
 ```
---imgType: the type of image. 'vas', 'ast', 'neu' and 'smp', default='ast'.
---modelName: which model you want to use. 'care', 'dncnn', 'resnet', 'n2n' and 'n2v', default='n2v'.
+--baseDir: basedir of models for each type of image, default='models/models_ast/'.
+--modelName: which model you want to use. 'care', 'dncnn', 'resnet', 'n2n', 'n2v' and 'pn2v', default='n2v'.
+             (also includes 'struct_n2v_1x5', 'struct_n2v_5x1', etc.)
 --imgPath: directory in which test images are.
---savePath: where to save denoised images, default='denoised'
+--savePath: where to save denoised images, default='denoised/'
+--multiFrames: whether there are multi frames in an image. True or False, default=False. 
 ```
 
 Go to the directory with predict.py, run the following command. Denoised images will be saved to savePath. This command is an example, you can change the arguments.
 ```
 (conda activate [ENV_NAME])
-python script.py --imgType=vas --modelName=n2v --imgPath=test_images/VAS/raw/ --savePath=denoised/
+python predict.py --baseDir=models/models_vas --modelName=n2v --imgPath=test_images/VAS/raw/ --savePath=denoised/
+```
+
+### 3. How to use the ratiometric script
+
+The arguments in parser are as follows:
+
+```
+--baseDir: basedir of models for each type of image, default='models/models_ast/'.
+--modelName: which model you want to use. 'care', 'dncnn', 'resnet', 'n2n', 'n2v' and 'pn2v', default='care'.
+             (also includes 'struct_n2v_1x5', 'struct_n2v_5x1', etc.)
+--imgPath: directory in which test images are.
+--savePath: where to save denoised images, default='ratiometric'
+--binning: number of frames to average, default=1
+```
+
+Go to the directory with ratiometric.py, run the following command. Denoised images will be saved to savePath. Each denoised image has two channels. This command is an example, you can add or change the arguments.
+```
+(conda activate [ENV_NAME])
+python predict.py --baseDir=models/models_vas --modelName=n2v --imgPath=test_images/VAS/raw/ --binning=1
 ```
 
 ### 3. How to use jupyter notebook for prediction and visualization
 
-Open predict.ipynb in notebook, select the kernel you create, change arguments in the Config part and run the cells.
+Open **predict.ipynb** or **ratiometric.ipynb** in notebook, select the kernel you created, change arguments in the Config part and run the cells.
