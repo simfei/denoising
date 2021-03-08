@@ -5,16 +5,17 @@ from preprocessing import extract_data, generate_patches_from_list
 
 def train_care(data_dir, num_imgs_in_tif,
                expand_data, patch_shape=(256,256),
-               test_size=0.1, augement=True,
+               test_size=0.1, augment=True,
                batch_size=32, epochs=100, lr=0.0004,
                model_name='care', basedir='save_models'):
     raw_x, raw_y = extract_data(data_dir=data_dir, num_imgs_in_tif=num_imgs_in_tif,
                                 expand_data=expand_data, data_type='XY')
+    print(raw_x.shape)
     split_idx = int(raw_x.shape[0]*(1-test_size))
-    X_train = generate_patches_from_list([raw_x[:split_idx]], shape=patch_shape, augment=augement)[...,np.newaxis]
-    X_val = generate_patches_from_list([raw_x[split_idx:]], shape=patch_shape, augment=augement)[...,np.newaxis]
-    Y_train = generate_patches_from_list([raw_y[:split_idx]], shape=patch_shape, augment=augement)[...,np.newaxis]
-    Y_val = generate_patches_from_list([raw_y[split_idx:]], shape=patch_shape, augment=augement)[...,np.newaxis]
+    X_train = generate_patches_from_list([raw_x[:split_idx]], shape=patch_shape, augment=augment)[...,np.newaxis]
+    X_val = generate_patches_from_list([raw_x[split_idx:]], shape=patch_shape, augment=augment)[...,np.newaxis]
+    Y_train = generate_patches_from_list([raw_y[:split_idx]], shape=patch_shape, augment=augment)[...,np.newaxis]
+    Y_val = generate_patches_from_list([raw_y[split_idx:]], shape=patch_shape, augment=augment)[...,np.newaxis]
     np.random.seed(0)
     np.random.shuffle(X_train)
     np.random.seed(0)

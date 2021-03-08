@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam, lr_scheduler
 from preprocessing import load_data
-from ..nets.resnet import ResNet
+from nets.resnet import ResNet
 
 
 def train_model(dataset_sizes, loader, model, criterion, optimizer, scheduler, device, num_epochs=100):
@@ -27,7 +27,7 @@ def train_model(dataset_sizes, loader, model, criterion, optimizer, scheduler, d
                 labels = labels.to(device)
                 optimizer.zero_grad()
                 with torch.set_grad_enabled(phase == 'training'):
-                    outputs = model.dncnn(inputs)
+                    outputs = model(inputs)
                     loss = criterion(outputs, labels)
                     if phase == 'training':
                         loss.backward()

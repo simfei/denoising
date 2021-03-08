@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d145a8b-380d-4cb2-8082-afd6424fed37" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/denoising.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/denoising.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predict.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/predict.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nets/unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nets/custom_unet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training/preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/preprocessing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_care.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_care.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_dncnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_dncnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_n2n.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_n2n.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_resnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_resnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_unet.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,11 +41,22 @@
       <option name="presentableId" value="Default" />
       <updated>1615156239916</updated>
       <workItem from="1615156244559" duration="251000" />
-      <workItem from="1615156524762" duration="276000" />
+      <workItem from="1615156524762" duration="5110000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

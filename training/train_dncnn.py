@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam, lr_scheduler
 from preprocessing import load_data
-from ..nets.dncnn import DnCNN
+from nets.dncnn import DnCNN
 
 
 def train_model(dataset_sizes, loader, model, criterion, optimizer, scheduler, device, num_epochs=100):

@@ -61,8 +61,9 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
         raw_x = np.stack(raw_x)
     else:
         raw_x = np.concatenate(raw_x, axis=0)
-    raw_y = np.stack(raw_y)
-    if data_type == 'XY' or 'XX':
+    if data_type is not 'X':
+        raw_y = np.stack(raw_y)
+    if data_type in ['XY', 'XX']:
         return raw_x, raw_y
     if data_type == 'X':
         return raw_x
