@@ -132,7 +132,6 @@ Open **predict.ipynb** or **ratiometric.ipynb** in notebook, select the kernel y
 
 ### *References*
 
-```
 Weigert, M., Schmidt, U., Boothe, and T. et al. Content-aware image restoration: pushing the limits of fluorescence microscopy. Nat Methods, 15:1090–1097, 2018.
 
 K. Zhang, W. Zuo, Y. Chen, D. Meng, and L. Zhang. Beyond a gaussian denoiser: Residual learning of deep cnn for image denoising. IEEE Transactions on Image Processing, 26(7):3142–3155, 2017.
@@ -146,4 +145,3 @@ Alexander Krull, Tomas Vicar, Mangal Prakash, Manan Lalit, and Florian Jug. Prob
 C. Broaddus, A. Krull, M. Weigert, U. Schmidt, and G. Myers. Removing structured noise with selfsupervised blind-spot networks. In 2020 IEEE 17th International Symposium on Biomedical Imaging (ISBI), pages 159–163, 2020.
 
 Sreyas Mohan, Zahra Kadkhodaie, Eero P. Simoncelli, and Carlos Fernandez-Granda. Robust and interpretable blind image denoising via bias-free convolutional neural networks, 2020.
-```
