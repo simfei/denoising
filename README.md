@@ -37,23 +37,23 @@ $ pip install tifffile
 
 The arguments in parser are as follows:
 ```
---model: choose the model for training: care, dncnn, resnet, n2n, n2v, or pn2v, default=n2v
---dataDir: path of the training data, default=data/
---numImgsInTif: how many frames in a .tif file are chosen for training. Int, default=1
---expandData: whether to expand data by averaging 2, 4, 8, 16 raw images, default=True
---shape: the shape of input patches, e.g. input 256, the shape is (256,256). Int, default=256
---testSize: the size of validation set. Float, default=0.1
---augment: whther to do data augmentatioin, default=True
---batchSize: training batch size. Int, default=16
---epochs: training epochs. Int, default=100
---lr: learning rate. Float, default=0.0004
---modelName: name of the trained model to be saved, default=n2v
-             For PN2V, modelName is also the path to save the model
-             For structured N2V, add 'struct' as prefix, e.g. struct_n2v_1x5
---baseDir: the base directory to save the model, default=save_models/
---bias: whether to use bias in network, only used for DnCNN and U-Net, default=False
---structN2VMask: blind mask for structure Noise2Void, choose from 1x3, 1x5, 1x9, 3x1, 5x1, 9x1, default=None
---unetDepth: depth of UNet, only used for model: care, n2n, n2v, and pn2v. Int, default=2
+--model: choose the model for training: care, dncnn, resnet, n2n, n2v, or pn2v, default=n2v.
+--dataDir: path of the training data, default=data/.
+--numImgsInTif: how many frames in a .tif file are chosen for training. Int, default=1.
+--expandData: whether to expand data by averaging 2, 4, 8, 16 raw images, default=True.
+--shape: the shape of input patches, e.g. input 256, the shape is (256,256). Int, default=256.
+--testSize: the size of validation set. Float, default=0.1.
+--augment: whther to do data augmentatioin, default=True.
+--batchSize: training batch size. Int, default=16.
+--epochs: training epochs. Int, default=100.
+--lr: learning rate. Float, default=0.0004.
+--modelName: name of the trained model to be saved, default=n2v.
+             For PN2V, modelName is also the path to save the model.
+             For structured N2V, add 'struct' as prefix, e.g. struct_n2v_1x5.
+--baseDir: the base directory to save the model, default=save_models/.
+--bias: whether to use bias in network, only used for DnCNN and U-Net, default=False.
+--structN2VMask: blind mask for structure Noise2Void, choose from 1x3, 1x5, 1x9, 3x1, 5x1, 9x1, default=None.
+--unetDepth: depth of UNet, only used for model: care, n2n, n2v, and pn2v. Int, default=2.
 ```
 Noted that for PN2V in this code, the noise model is created by directly using all training data. To train a structured Noise2Void model, choose model 'n2v', add the argument structN2VMask, and save the model with a prefix 'struct' in the argument modelName. For models with UNet architecture, 2-depth UNet is usually enough for training CARE, N2N and N2V. PN2V usually use 3-depth UNet.
 
@@ -93,12 +93,12 @@ pip install -r requirements.txt
 The arguments in parser are as follows:
 
 ```
---baseDir: basedir of models for each type of image, default=models/models_ast/
---modelName: which model you want to use: care, dncnn, resnet, n2n, n2v and pn2v, default=n2v
+--baseDir: basedir of models for each type of image, default=models/models_ast/.
+--modelName: which model you want to use: care, dncnn, resnet, n2n, n2v and pn2v, default=n2v.
              (also includes struct_n2v_1x5, struct_n2v_5x1, etc.)
---imgPath: path of test images
---savePath: path to save denoised images, default=denoised/
---multiFrames: whether there are multi frames in an image. True or False, default=False
+--imgPath: path of test images.
+--savePath: path to save denoised images, default=denoised/.
+--multiFrames: whether there are multi frames in an image. True or False, default=False.
 ```
 
 Go to the directory with predict.py, run the following command. Denoised images will be saved to savePath. This command is an example, you can change the arguments.
@@ -112,12 +112,12 @@ python predict.py --baseDir=models/models_vas --modelName=n2v --imgPath=test_ima
 The arguments in parser are as follows:
 
 ```
---baseDir: basedir of models for each type of image, default=models/models_ast/
---modelName: which model you want to use: care, dncnn, resnet, n2n, n2v and pn2v, default=care
+--baseDir: basedir of models for each type of image, default=models/models_ast/.
+--modelName: which model you want to use: care, dncnn, resnet, n2n, n2v and pn2v, default=care.
              (also includes struct_n2v_1x5, struct_n2v_5x1, etc.)
---imgPath: path of test images
---savePath: path to save denoised images, default=ratiometric/
---binning: number of frames to average, default=1
+--imgPath: path of test images.
+--savePath: path to save denoised images, default=ratiometric/.
+--binning: number of frames to average, default=1.
 ```
 
 Go to the directory with ratiometric.py, run the following command. Denoised images will be saved to savePath. Each denoised image has two channels. This command is an example, you can add or change the arguments.
