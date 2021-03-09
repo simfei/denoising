@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5d145a8b-380d-4cb2-8082-afd6424fed37" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_dncnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_dncnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_n2v.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_n2v.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/train_resnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_resnet.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +44,7 @@
       <workItem from="1615156244559" duration="251000" />
       <workItem from="1615156524762" duration="5535000" />
       <workItem from="1615285033414" duration="11814000" />
-      <workItem from="1615301949372" duration="5426000" />
+      <workItem from="1615301949372" duration="5764000" />
     </task>
     <servers />
   </component>

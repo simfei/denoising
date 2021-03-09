@@ -46,3 +46,4 @@ def train_n2v(data_dir, num_imgs_in_tif, expand_data,
                        structN2Vmask=structN2Vmask)
     model = N2V(config=config, name=model_name, basedir=basedir)
     model.train(X_train, X_val)
+    return

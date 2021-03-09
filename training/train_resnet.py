@@ -69,3 +69,4 @@ def train_resnet(data_dir, num_imgs_in_tif=1,
     scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.5)
     model = train_model(dataset_sizes, loader, model, criterion, optimizer, scheduler, device=device, num_epochs=epochs)
     torch.save(model.state_dict(), basedir+model_name)
+    return
