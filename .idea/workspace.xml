@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d145a8b-380d-4cb2-8082-afd6424fed37" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/denoising.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/denoising.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nets/unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nets/custom_unet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/preprocessing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/train_care.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_care.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/train_dncnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_dncnn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/train_n2n.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_n2n.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/train_resnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_resnet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/train_unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/train_unet.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +33,8 @@
       <option name="presentableId" value="Default" />
       <updated>1615156239916</updated>
       <workItem from="1615156244559" duration="251000" />
-      <workItem from="1615156524762" duration="5110000" />
+      <workItem from="1615156524762" duration="5535000" />
+      <workItem from="1615285033414" duration="1065000" />
     </task>
     <servers />
   </component>
@@ -58,5 +51,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

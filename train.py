@@ -1,5 +1,6 @@
 import sys
 import argparse
+import os
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--model", help="choose the model for training", default="n2v")
@@ -14,8 +15,9 @@ parser.add_argument("--epochs", help="training epochs", type=int, default=100)
 parser.add_argument("--lr", help="training learning rate", type=float, default=0.0004)
 parser.add_argument("--modelName", help="name of the model to be saved", default="n2v")
 parser.add_argument("--baseDir", help="the dir to save the model", default="save_models")
-parser.add_argument("--bias", help="whether to add bias to networks", default=False)
-parser.add_argument("--structN2VMask", help="blind mask for structure Noise2Void", default=None)
+parser.add_argument("--bias", help="whether to add bias to networks, only used for DnCNN and UNet", default=False)
+parser.add_argument("--structN2VMask", help="blind mask for structure Noise2Void, "
+                                            "choose from 1x3, 1x5, 1x9, 3x1, 5x1, 9x1", default=None)
 
 
 # check and print arguments
@@ -23,11 +25,27 @@ if len(sys.argv) == 1:
     parser.print_help(sys.stderr)
     sys.exit(1)
 
+blind_masks_choices = ['1x3', '1x5', '1x9', '3x1', '5x1', '9x1']
+blind_masks = {'1x3': [[0,0,0,0,1,1,1,0,0,0,0]],
+               '1x5': [[0,0,0,1,1,1,1,1,0,0,0]],
+               '1x9': [[0,1,1,1,1,1,1,1,1,1,0]],
+               '3x1': [[0],[0],[0],[0],[1],[1],[1],[0],[0],[0],[0]],
+               '5x1': [[0],[0],[0],[1],[1],[1],[1],[1],[0],[0],[0]],
+               '9x1': [[0],[1],[1],[1],[1],[1],[1],[1],[1],[1],[0]]}
 args = parser.parse_args()
 if not args.dataDir.endswith('/'):
     args.dataDir = args.dataDir + '/'
 if not args.baseDir.endswith('/'):
     args.baseDir = args.baseDir + '/'
+if not os.path.exists(args.baseDir):
+    os.mkdir(args.baseDir)
+if args.structN2VMask is not None:
+    if args.structN2VMask not in blind_masks_choices:
+        raise Exception("Choices for blind masks are within 1x3, 1x5, 1x9, 3x1, 5x1 and 9x1.")
+    else:
+        structN2Vmask = blind_masks[args.structN2VMask]
+else:
+    structN2Vmask = None
 print(args)
 
 
@@ -55,7 +73,7 @@ if model_type == 'care':
 if model_type == 'n2n':
     train_n2n(**config_dict)
 if model_type == 'n2v' or model_type.startswith('struct_n2v'):
-    config_dict['structN2Vmask'] = args.structN2VMask
+    config_dict['structN2Vmask'] = structN2Vmask
     train_n2v(**config_dict)
 if model_type == 'dncnn':
     config_dict['bias'] = args.bias
