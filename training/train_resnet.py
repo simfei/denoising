@@ -33,10 +33,10 @@ def train_model(dataset_sizes, loader, model, criterion, optimizer, scheduler, d
                         loss.backward()
                         optimizer.step()
                 running_loss += loss.item() * inputs.size(0)
-            if phase == 'training':
-                scheduler.step()
             epoch_loss = running_loss / dataset_sizes[phase]
             print('{} Loss: {:.4f}'.format(phase, epoch_loss))
+            if phase == 'val':
+                scheduler.step(epoch_loss)
 
             if phase == 'val' and epoch_loss < best_loss:
                 best_loss = epoch_loss
@@ -57,6 +57,8 @@ def train_resnet(data_dir, num_imgs_in_tif=1,
                  batch_size=16, epochs=100, lr=0.0004,
                  model_name='resnet.pt', basedir='save_models/'
                  ):
+    if (not model_name.endswith('.pt')) or (not model_name.endswith('.pth')):
+        model_name = model_name + '.pt'
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     dataset_sizes, loader = load_data(data_dir, num_imgs_in_tif, expand_data,
                                       test_size, patch_shape, batch_size, augment=augment, device=device)

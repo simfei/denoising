@@ -12,7 +12,8 @@ def get_patches(imgs, shape=(256,256), augment=True):
 
 def train_n2v(data_dir, num_imgs_in_tif, expand_data,
               test_size=0.1, patch_shape=(256,256),
-              augment=True, batch_size=128, epochs=200,
+              augment=True, batch_size=128,
+              epochs=200, unet_depth=2,
               lr=0.0004, structN2Vmask=None,
               model_name='n2v', basedir='save_models'
               ):
@@ -30,8 +31,10 @@ def train_n2v(data_dir, num_imgs_in_tif, expand_data,
     split_idx = int(raw_x.shape[0]*(1-test_size))
     X_train = get_patches(raw_x[:split_idx], shape=patch_shape, augment=augment)
     X_val = get_patches(raw_x[split_idx:], shape=patch_shape, augment=augment)
+    if X_train.shape[0] < batch_size:
+        raise Exception("The number of training data is smaller than batch size. Try to set batch size smaller.")
     config = N2VConfig(X_train, unet_kern_size=3,
-                       unet_residual=False, unet_n_depth=2,
+                       unet_residual=False, unet_n_depth=unet_depth,
                        unet_n_first=32, batch_norm=True,
                        train_steps_per_epoch=int(X_train.shape[0]/batch_size),
                        train_epochs=epochs, train_loss='mse',

@@ -5,9 +5,10 @@ import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--baseDir", help="basedir of models for each type of image", default="models/models_ast/")
-parser.add_argument("--modelName", help="which model you want to use", default='care')
-parser.add_argument("--imgPath", help="the path of test images", default="test_images/AST/ratio/")
-parser.add_argument("--savePath", help="the path to save denoised images", default="ratiometric/")
+parser.add_argument("--modelName", help="which model you want to use: "
+                                        "care, dncnn, resnet, n2n, n2v, pn2v and struct_n2v_xxx", default='care')
+parser.add_argument("--imgPath", help="path of test images", default="test_images/AST/ratio/")
+parser.add_argument("--savePath", help="path to save denoised images", default="ratiometric/")
 parser.add_argument("--binning", help="number of frames to average", default=1)
 
 if len(sys.argv)==1:

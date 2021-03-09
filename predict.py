@@ -5,10 +5,11 @@ import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--baseDir", help="basedir of models for each type of image", default="models/models_ast/")
-parser.add_argument("--modelName", help="which model you want to use", default='n2v')
-parser.add_argument("--imgPath", help="the path of test images", default="test_images/AST/raw/")
-parser.add_argument("--savePath", help="the path to save denoised images", default="denoised/")
-parser.add_argument("--multiFrames", help="whether there are multi frames in an image", default=False)
+parser.add_argument("--modelName", help="which model you want to use: "
+                                        "care, dncnn, resnet, n2n, n2v, pn2v and struct_n2v_xxx", default='n2v')
+parser.add_argument("--imgPath", help="path of test images", default="test_images/AST/raw/")
+parser.add_argument("--savePath", help="path to save denoised images", default="denoised/")
+parser.add_argument("--multiFrames", help="whether there are multi frames in an image", default='False')
 
 if len(sys.argv)==1:
     parser.print_help(sys.stderr)
@@ -16,11 +17,15 @@ if len(sys.argv)==1:
 
 # check args
 args = parser.parse_args()
+if args.multiFrames == 'False':
+    multi_frames = False
+else:
+    multi_frames = True
 basedir = args.baseDir
 model_name = args.modelName
 test_img_path = args.imgPath
 save_path = args.savePath
-multi_frames = args.multiFrames
+
 if not basedir.endswith('/'):
     basedir = basedir+'/'
 if not test_img_path.endswith('/'):

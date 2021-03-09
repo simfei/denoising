@@ -15,7 +15,7 @@ def cut_off(img_, max_value):
     return img
 
 
-def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY'):
+def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY', noise_model=False):
     '''
 
     :param data_dir: image directory
@@ -23,8 +23,18 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
     :param expand_data: expand data by average 2,4,8,16 raw images as training data, default=False
     :param data_type: 'XY', 'XX', or 'X', default='XY'. 'XY' for extracting noisy inputs and clean targets,
                       'XX' for extracting noisy inputs and noisy targets, and 'X' for extracting noisy inputs.
+    :param noise_model: only used for training PN2V. Set True if noise model is estimated by using training data,
+                        else set False, default=False. When set True, data_type must be 'X'.
     :return: training data
     '''
+
+    observation = None
+    signal = None
+    if noise_model is True:
+        observation = []
+        signal = []
+        if data_type is not 'X':
+            raise Exception('data_type {} is not compatible with noise_model True!'.format(data_type))
 
     raw_x = []
     raw_y = []
@@ -44,12 +54,18 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
                         raw_y.append(gt)
                 if data_type == 'XX':
                     raw_y.append(new_img_series[int(num_img/2):(int(num_img/2)+num_imgs_in_tif)])
+                if noise_model is True:
+                    observation.append(new_img_series)
+                    signal.append(gt)
             else:
                 avg_num = [1, 2, 4, 8, 16]
                 for s in avg_num:
                     for n in range(num_imgs_in_tif):
                         avg_img1 = np.mean(new_img_series[n:(n + s)], axis=0)
                         raw_x.append(avg_img1)
+                        if noise_model is True:
+                            observation.append(avg_img1)
+                            signal.append(gt)
                         if data_type == 'XX':
                             avg_img2 = np.mean(new_img_series[(n+int(num_img/2)):(n+int(num_img/2)+s)], axis=0)
                             raw_y.append(avg_img2)
@@ -59,14 +75,23 @@ def extract_data(data_dir, num_imgs_in_tif=1, expand_data=False, data_type='XY')
             del img_series
     if expand_data is True:
         raw_x = np.stack(raw_x)
+        if noise_model is True:
+            observation = np.stack(observation)
     else:
         raw_x = np.concatenate(raw_x, axis=0)
+        if noise_model is True:
+            observation = np.concatenate(observation, axis=0)
+    if noise_model is True:
+        signal = np.stack(signal)
     if data_type is not 'X':
         raw_y = np.stack(raw_y)
     if data_type in ['XY', 'XX']:
         return raw_x, raw_y
     if data_type == 'X':
-        return raw_x
+        if noise_model is True:
+            return raw_x, observation, signal
+        else:
+            return raw_x
 
 
 def extract_patches(data, shape):
@@ -129,6 +154,8 @@ def load_data(data_dir, num_imgs_in_tif, expand_data, test_size, shape, batch_si
     X_val = generate_patches_from_list([raw_x[split_idx:]], shape=shape, augment=augment)[:,np.newaxis,...]
     Y_train = generate_patches_from_list([raw_y[:split_idx]], shape=shape, augment=augment)[:,np.newaxis,...]
     Y_val = generate_patches_from_list([raw_y[split_idx:]], shape=shape, augment=augment)[:,np.newaxis,...]
+    if X_train.shape[0] < batch_size:
+        raise Exception("The number of training data is smaller than batch size. Try to set batch size smaller.")
     np.random.seed(0)
     np.random.shuffle(X_train)
     np.random.seed(0)
