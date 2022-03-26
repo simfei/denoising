@@ -10,7 +10,7 @@ is also examined by bias-free neural networks. Results have shown that our deep 
 
 ### 1. Installation for training on GPU
 
-The implementation of CARE, N2N and N2V requires tensorflow version1. The implementation of DnCNN, ResNet and PN2V requires torch. 
+The implementation of CARE, N2N and N2V requires tensorflow. The implementation of DnCNN, ResNet and PN2V requires torch. 
 
 **For training on GPU**, firstly install [miniconda](https://docs.conda.io/en/latest/miniconda.html). Then install the required version of CUDA and CuDNN. In our case, we use CUDA 11.4 and CuDNN 8.2.4.
 
@@ -130,6 +130,10 @@ python predict.py --baseDir=models/models_vas --modelName=n2v --imgPath=test_ima
 ### 3. How to use jupyter notebook for prediction and visualization
 
 Open **predict.ipynb** or **ratiometric.ipynb** in notebook, select the kernel you created, change arguments in the Config part and run the cells.
+
+### Note
+
+Files in __nets/pn2v__ and __nets/unet__ are copies from https://github.com/juglab/pn2v.
 
 ### *References*
 
