@@ -1,6 +1,7 @@
 import sys
 import argparse
 import os
+sys.path.append("training")
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--model", help="choose the model for training: "
@@ -53,11 +54,11 @@ if not args.dataDir.endswith('/'):
     args.dataDir = args.dataDir + '/'
 if not args.baseDir.endswith('/'):
     args.baseDir = args.baseDir + '/'
-if args.model == 'pn2v':
-    if not os.path.exists(args.modelName):
-        os.mkdir(args.baseDir+args.modelName)
 if not os.path.exists(args.baseDir):
     os.mkdir(args.baseDir)
+if args.model == 'pn2v':
+    if not os.path.exists(args.modelName) and not os.path.exists(args.baseDir+args.modelName):
+        os.mkdir(args.baseDir+args.modelName)
 if args.structN2VMask is not None:
     if args.structN2VMask not in blind_masks_choices:
         raise Exception("Choices for blind masks are within 1x3, 1x5, 1x9, 3x1, 5x1 and 9x1.")
@@ -66,18 +67,6 @@ if args.structN2VMask is not None:
 else:
     structN2Vmask = None
 print(args)
-
-
-# import dependencies
-sys.path.append("training")
-from train_care import train_care
-from train_n2v import train_n2v
-from train_n2n import train_n2n
-from train_dncnn import train_dncnn
-from train_resnet import train_resnet
-from train_unet import train_unet
-from train_pn2v import train_pn2v
-
 
 # create configuration dictionary
 config_dict = {'data_dir': args.dataDir, 'num_imgs_in_tif': args.numImgsInTif,
@@ -91,23 +80,30 @@ if args.model == 'pn2v':
 # train and save model
 model_type = args.model
 if model_type == 'care':
+    from train_care import train_care
     config_dict['unet_depth'] = args.unetDepth
     train_care(**config_dict)
 if model_type == 'n2n':
+    from train_n2n import train_n2n
     config_dict['unet_depth'] = args.unetDepth
     train_n2n(**config_dict)
 if model_type == 'n2v' or model_type.startswith('struct_n2v'):
+    from train_n2v import train_n2v
     config_dict['unet_depth'] = args.unetDepth
     config_dict['structN2Vmask'] = structN2Vmask
     train_n2v(**config_dict)
 if model_type == 'dncnn':
+    from train_dncnn import train_dncnn
     config_dict['bias'] = use_bias
     train_dncnn(**config_dict)
 if model_type == 'resnet':
+    from train_resnet import train_resnet
     train_resnet(**config_dict)
-if model_type == 'unet':
-    config_dict['bias'] = use_bias
-    train_unet(**config_dict)
+# if model_type == 'unet':
+#     from train_unet import train_unet
+#     config_dict['bias'] = use_bias
+#     train_unet(**config_dict)
 if model_type == 'pn2v':
+    from training.train_pn2v import train_pn2v
     config_dict['unet_depth'] = args.unetDepth
     train_pn2v(**config_dict)

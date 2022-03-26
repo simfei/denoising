@@ -12,24 +12,25 @@ is also examined by bias-free neural networks. Results have shown that our deep 
 
 The implementation of CARE, N2N and N2V requires tensorflow version1. The implementation of DnCNN, ResNet and PN2V requires torch. 
 
-**For training on GPU**, firstly install [miniconda](https://docs.conda.io/en/latest/miniconda.html). Then install the required version of CUDA and CuDNN. In our case, we use CUDA 9.0 and CuDNN 7.1.4.
+**For training on GPU**, firstly install [miniconda](https://docs.conda.io/en/latest/miniconda.html). Then install the required version of CUDA and CuDNN. In our case, we use CUDA 11.4 and CuDNN 8.2.4.
 
 Two enviroments are separately created for tensorflow and torch. The following lines show how to create an enviroment and install the packages:
 ``` 
-$ conda create -n tensorflow python==3.6
+$ conda create -n tensorflow python==3.7.9
 $ conda activate tensorflow
-$ conda install tensorflow-gpu==1.12.0
+$ pip install tensorflow-gpu==2.4.1 
+$ pip install keras=2.3.1
 $ pip install n2v
 $ pip install csbdeep
-$ pip install numpy==1.19.0
+$ pip install numpy
 $ pip install tifffile
 ```
 
 ``` 
-$ conda create -n torch python==3.6
-$ conda activate denoising
-$ pip install torch==1.5.1+cu92 torchvision==0.6.1+cu92 -f https://download.pytorch.org/whl/torch_stable.html
-$ pip install numpy=1.19.1
+$ conda create -n torch python==3.7.9
+$ conda activate torch
+$ pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+$ pip install numpy
 $ pip install tifffile
 ```
 
@@ -67,7 +68,7 @@ conda activate tensorflow
 ```
 Run the following command for training. The trained model will be saved to baseDir. The command is an example, you can change or add the arguments.
 ```
-python train.py --model=n2v --dataDir=data/ batchSize=128 --epochs=200 --modelName=n2v --baseDir=save_models/
+python train.py --model=n2v --dataDir=data/ --batchSize=128 --epochs=200 --modelName=n2v --baseDir=save_models/
 ```
 
 ## Prediction
@@ -77,7 +78,7 @@ python train.py --model=n2v --dataDir=data/ batchSize=128 --epochs=200 --modelNa
 Firstly install [Anaconda](https://docs.anaconda.com/anaconda/install/windows/). Then the following lines show how to create an environment and add the environment to jupyter:
 
 ```
-conda create -n [ENV_NAME] python==3.7
+conda create -n [ENV_NAME] python==3.7.9
 conda activate [ENV_NAME]
 conda install -n [ENV_NAME] ipykernel
 python -m ipykernel install --user --name [ENV_NAME] --display-name [DISPLAY_NAME]

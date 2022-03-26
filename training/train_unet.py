@@ -3,7 +3,7 @@ import copy
 import torch
 import torch.nn as nn
 from torch.optim import Adam, lr_scheduler
-from preprocessing import load_data
+from data_loader import load_data
 from nets.custom_unet import UNet
 
 

@@ -1,10 +1,9 @@
--f https://download.pytorch.org/whl/torch_stable.html 
-torch==1.6.0+cpu 
-torchvision==0.7.0+cpu
-n2v==0.2.1
-csbdeep==0.5.2
-numpy==1.19.1
+torch
+torchvision
+n2v
+csbdeep
+numpy
 tifffile
-tensorflow==1.15.0
+tensorflow==2.4.1
 opencv-python
 scikit-image==0.18.1
